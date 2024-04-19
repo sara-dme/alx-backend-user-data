@@ -2,7 +2,7 @@
 """ Module of Authentication
 """
 from flask import request
-from typing import List, TypeVar
+from typing import List
 
 
 class Auth:
@@ -39,8 +39,7 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """ Method that handles authorization header """
-        key = "Authorization"
-        if request is None or key not in request.headers:
+        if request is None:
             return None
 
         return request.headers.get("Authorization", None)
