@@ -17,7 +17,7 @@ auth = None
 
 if getenv('AUTH_TYPE') == 'auth':
     from api.v1.auth import Auth
-    auth = Auth() 
+    auth = Auth()
 
 
 @app.errorhandler(404)
@@ -48,17 +48,12 @@ def before_request() -> str:
     """
     if auth is None:
         return
-
-    excluded_paths = ['/api/v1/status/',
-                      '/api/v1/unauthorized/',
+    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
                       '/api/v1/forbidden/']
-
     if not auth.require_auth(request.path, excluded_paths):
         return
-
     if auth.authorization_header(request) is None:
         abort(401)
-
     if auth.current_user(request) is None:
         abort(403)
 
