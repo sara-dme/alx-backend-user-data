@@ -8,6 +8,7 @@ from user import User
 from sqlalchemy.orm.exc import NoResultFound
 import bcrypt
 
+
 def _hash_password(password: str) -> bytes:
     """ return a hash password"""
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
