@@ -1,4 +1,4 @@
-"""DB module
+"""DB module ___ 
 """
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -11,7 +11,7 @@ from user import Base, User
 
 
 class DB:
-    """DB class
+    """DataBase class
     """
 
     def __init__(self) -> None:
@@ -30,14 +30,14 @@ class DB:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
-    
+
     def add_user(self, email: str, hashed_password: str) -> User:
         """ Add user to database"""
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
         return user
-    
+
     def find_user_by(self, **kwargs) -> User:
         """ find a user by key word args """
         try:
@@ -47,4 +47,3 @@ class DB:
         except InvalidRequestError:
             raise
         return user
-    
