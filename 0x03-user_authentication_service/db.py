@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DB module ___ 
+"""DB module ___
 """
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -18,7 +18,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -48,3 +48,13 @@ class DB:
         except InvalidRequestError:
             raise
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Update user attributes"""
+        user = self.find_user_by(id=user_id)
+        for key, val in kwargs.items():
+            if hasattr(user, key):
+                setattr(user, key, val)
+            else:
+                raise ValueError
+        self._session.commit()
