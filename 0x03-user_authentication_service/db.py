@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """DB module ___ 
 """
 from sqlalchemy import create_engine
@@ -41,7 +42,7 @@ class DB:
     def find_user_by(self, **kwargs) -> User:
         """ find a user by key word args """
         try:
-            user = self._session.query(User).filter_by(**kwargs).first()
+            user = self.__session.query(User).filter_by(**kwargs).first()
         except NoResultFound:
             raise
         except InvalidRequestError:
