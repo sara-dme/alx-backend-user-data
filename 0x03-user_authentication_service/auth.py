@@ -21,11 +21,19 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
+    def valid_login(self, email: str, password: str) -> bool:
+        """return true if password is valid else false"""
+        try:
+            user = self._db.find_user_by(email=email)
+            return bcrypt.checkpw(password.encode(), user.hashed_password)
+        except NoResultFound:
+            return False
+
     def register_user(self, email: str, password: str) -> User:
         """return a User object"""
         try:
-            self._db.find_user_by(email=email)
-            raise ValueError(f"User {email} already exists.")
+            user = self._db.find_user_by(email=email)
+            raise ValueError(f"User {email} already exists")
         except NoResultFound:
             user = self._db.add_user(email, _hash_password(password))
             return user
