@@ -8,7 +8,7 @@ BASE_URL = "http://localhost:5000"
 
 def register_user(email: str, password: str) -> None:
     """ user registration"""
-    data = {"email": email, "password": password }
+    data = {"email": email, "password": password}
     response = requests.post(f'{BASE_URL}/users', data=data)
     msg = {"email": email, "message": "user created"}
     assert response.status_code == 200
@@ -17,7 +17,7 @@ def register_user(email: str, password: str) -> None:
 
 def log_in_wrong_password(email: str, password: str):
     """ log in with wrong password"""
-    data = {"email": email, "password": password }
+    data = {"email": email, "password": password}
     response = requests.post(f'{BASE_URL}/sessions', data=data)
     assert response.status_code == 401
 
@@ -31,7 +31,7 @@ def profile_unlogged():
 
 def log_in(email: str, password: str) -> str:
     """Test for validating succesful log in"""
-    data = {"email": email, "password": password }
+    data = {"email": email, "password": password}
     response = requests.post(f'{BASE_URL}/sessions', data=data)
     msg = {"email": email, "message": "user created"}
     assert response.status_code == 200
@@ -40,13 +40,14 @@ def log_in(email: str, password: str) -> str:
     return session_id
 
 
-def  profile_logged(session_id: str) -> None:
+def profile_logged(session_id: str) -> None:
     """Test for validating profile request logged in """
     cookies = {"session_id": ""}
     response = requests.get(f'{BASE_URL}/profile', cookies=cookies)
     msg = {"email": EMAIL}
     assert response.status_code == 200
     assert response.json() == msg
+
 
 def log_out(session_id: str) -> None:
     """test for valid logout"""
