@@ -40,6 +40,7 @@ def login() -> Response:
         return response
     abort(401)
 
+
 @app.route("/sessions", methods=["DELETE"])
 def logout() -> str:
     """find the user and destroy the session then redirect
@@ -52,7 +53,6 @@ def logout() -> str:
         abort(403)
     AUTH.destroy_session(user.id)
     return redirect('/')
-
 
 
 if __name__ == "__main__":
