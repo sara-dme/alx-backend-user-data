@@ -14,9 +14,11 @@ def _hash_password(password: str) -> bytes:
     """ return a hash password"""
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
+
 def _generate_uuid() -> str:
     """ generate uuid"""
     return str(uuid.uuid4())
+
 
 class Auth:
     """Auth class to interact with the authentication database.
@@ -42,7 +44,7 @@ class Auth:
             return user
         else:
             raise ValueError(f"User {email} already exists")
-        
+
     def create_session(self, email: str) -> str:
         """return session id for a user"""
         try:
@@ -52,5 +54,3 @@ class Auth:
             return session_id
         except NoResultFound:
             return None
-        
-   
