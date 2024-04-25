@@ -71,7 +71,7 @@ def profile() -> str:
 @app.route('/reset_password', methods=['POST'])
 def reset_password() -> str:
     """If the email is not registered, respond with a 403 status code
-    Otherwise, generate a token and respond with a 200 HTTP status 
+    Otherwise, generate a token and respond with a 200 HTTP status
     and the following JSON payload"""
     try:
         email = request.form['email']
@@ -82,7 +82,7 @@ def reset_password() -> str:
     except ValueError:
         abort(403)
     msg = {"email": email, "reset_token": reset_token}
-    return jsonify(msg), 200 
+    return jsonify(msg), 200
 
 
 @app.route('/reset_password', methods=['PUT'])
