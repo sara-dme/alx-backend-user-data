@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Module basic flask app"""
 
-from flask import Flask, jsonify, request, abort, Response
+from flask import Flask, jsonify, request, abort, Response, redirect
 from auth import Auth
 
 app = Flask(__name__)
@@ -39,6 +39,20 @@ def login() -> Response:
         response.set_cookie("session_id", AUTH.create_session(email))
         return response
     abort(401)
+
+@app.route("/sessions", methods=["DELETE"])
+def logout() -> str:
+    """find the user and destroy the session then redirect
+    if exist else respond with 403 HTTP status"""
+    session_id = request.cookies.get("session_id", None)
+    if session_id is None:
+        abort(403)
+    user = AUTH.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect('/')
+
 
 
 if __name__ == "__main__":
