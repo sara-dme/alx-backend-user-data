@@ -28,17 +28,19 @@ def users() -> Response:
 
 
 @app.route("/sessions", methods=["POST"])
-def login() -> Response:
+def login() -> str:
     """ log in and return session id"""
     email = request.form["email"]
     password = request.form["password"]
 
-    if AUTH.valid_login(email, password):
-        res = jsonify({"email": email, "message": "logged in"}), 200
-        response = Flask.make_response(res)
-        response.set_cookie("session_id", AUTH.create_session(email))
-        return response
-    abort(401)
+    if not AUTH.valid_login(email, password):
+        abort(401)
+    session_id = AUTH.create_session(email)
+    msg = {"email": email, "message": "logged in"}
+    response = jsonify(msg)
+    """response = Flask.make_response(res)"""
+    response.set_cookie("session_id", session_id)
+    return response
 
 
 @app.route("/sessions", methods=["DELETE"])
