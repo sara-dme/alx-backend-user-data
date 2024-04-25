@@ -33,7 +33,7 @@ def log_in(email: str, password: str) -> str:
     """Test for validating succesful log in"""
     data = {"email": email, "password": password}
     response = requests.post(f'{BASE_URL}/sessions', data=data)
-    msg = {"email": email, "message": "user created"}
+    msg = {"email": email, "message": "logged in"}
     assert response.status_code == 200
     assert response.json() == msg
     session_id = response.cookies.get("session_id")
@@ -42,7 +42,7 @@ def log_in(email: str, password: str) -> str:
 
 def profile_logged(session_id: str) -> None:
     """Test for validating profile request logged in """
-    cookies = {"session_id": ""}
+    cookies = {"session_id": session_id}
     response = requests.get(f'{BASE_URL}/profile', cookies=cookies)
     msg = {"email": EMAIL}
     assert response.status_code == 200
@@ -51,8 +51,8 @@ def profile_logged(session_id: str) -> None:
 
 def log_out(session_id: str) -> None:
     """test for valid logout"""
-    cookies = {"session_id": ""}
-    response = requests.get(f'{BASE_URL}/sessions', cookies=cookies)
+    cookies = {"session_id": session_id}
+    response = requests.delete(f'{BASE_URL}/sessions', cookies=cookies)
     msg = {"message": "Bienvenue"}
     assert response.status_code == 200
     assert response.json() == msg
